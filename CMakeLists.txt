@@ -12,6 +12,8 @@ target_sources(cyx PRIVATE
 src/compress.cpp
 )
 
+include(cmakes/libs.cmake)
+
 target_include_directories(cyx PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)

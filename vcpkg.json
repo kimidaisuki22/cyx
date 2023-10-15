@@ -6,7 +6,9 @@
     "benchmark",
     "test"
   ],
-  "dependencies": [],
+  "dependencies": [
+    "zstd"
+  ],
   "features": {
     "benchmark": {
       "description": "build benchmarks",
