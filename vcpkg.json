@@ -1,0 +1,24 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "cyx",
+  "version": "0.0.1",
+  "default-features": [
+    "benchmark",
+    "test"
+  ],
+  "dependencies": [],
+  "features": {
+    "benchmark": {
+      "description": "build benchmarks",
+      "dependencies": [
+        "benchmark"
+      ]
+    },
+    "test": {
+      "description": "build tests",
+      "dependencies": [
+        "gtest"
+      ]
+    }
+  }
+}
