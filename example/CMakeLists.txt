@@ -8,3 +8,4 @@ function(add_exe name)
 endfunction()
 
 add_exe(fs_collect)
+add_exe(cssh)

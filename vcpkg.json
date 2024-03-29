@@ -7,7 +7,9 @@
     "test"
   ],
   "dependencies": [
-    "zstd"
+    "zstd",
+    "libssh2",
+    "spdlog"
   ],
   "features": {
     "benchmark": {

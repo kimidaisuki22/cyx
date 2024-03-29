@@ -1,2 +1,6 @@
 find_package(zstd CONFIG REQUIRED)
 target_link_libraries(cyx PRIVATE $<IF:$<TARGET_EXISTS:zstd::libzstd_shared>,zstd::libzstd_shared,zstd::libzstd_static>)
+find_package(Libssh2 CONFIG REQUIRED)
+target_link_libraries(cyx PUBLIC $<IF:$<TARGET_EXISTS:Libssh2::libssh2_shared>,Libssh2::libssh2_shared,Libssh2::libssh2_static>)
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(cyx PUBLIC spdlog::spdlog)
