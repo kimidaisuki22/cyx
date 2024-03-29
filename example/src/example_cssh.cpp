@@ -1,8 +1,10 @@
+#include <chrono>
 #include <iostream>
 #include <libssh2.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #ifdef _WIN32
 #pragma comment(lib, "ws2_32")
 #endif
@@ -269,16 +271,25 @@ int main(int argc, char **argv) {
    * libssh2_channel_read_stderr() to avoid this. See ssh2_echo.c for
    * an idea of how such a loop might look.
    */
+  libssh2_channel_set_blocking(channel, false);
   std::string shell_command = "uptime\n";
   libssh2_channel_write(channel, shell_command.c_str(), shell_command.size());
   while (!libssh2_channel_eof(channel)) {
 
     char buf[1024];
     ssize_t err = libssh2_channel_read(channel, buf, sizeof(buf));
+    const int wait_code = -37;
 
-    if (err < 0)
-      fprintf(stderr, "Unable to read response: %d\n", (int)err);
-    else {
+    if (err < 0) {
+
+      if (err != wait_code) {
+        fprintf(stderr, "Unable to read response: %d\n", (int)err);
+      } else {
+        libssh2_channel_write(channel, shell_command.c_str(),
+                              shell_command.size());
+        std::this_thread::sleep_for(std::chrono::seconds{1});
+      }
+    } else {
       fwrite(buf, 1, err, stdout);
     }
   }
@@ -310,8 +321,6 @@ int main(int argc, char **argv) {
   //         libssh2_session_free(session);
 
   //     }
-
-
 
   fprintf(stderr, "all done\n");
 }
