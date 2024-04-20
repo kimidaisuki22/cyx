@@ -9,7 +9,8 @@ include(CTest)
 add_library(cyx STATIC)
 
 target_sources(cyx PRIVATE
-src/compress.cpp
+src/compression/compress_zstd.cpp
+src/compression/decompress_zstd.cpp
 )
 
 include(cmakes/libs.cmake)
