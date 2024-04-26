@@ -24,4 +24,5 @@ endfunction()
 
 add_test_executable(filesystem_test src/fs_test.cpp)
 
+add_test_executable(compress_test src/compress_test.cpp)
 # add_test_executable(axx_test src/axx_test.cpp)
