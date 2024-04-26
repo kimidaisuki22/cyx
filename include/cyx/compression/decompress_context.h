@@ -23,4 +23,5 @@ public:
 };
 
 std::unique_ptr<Decompress_stream_context> create_zstd_decompress_stream();
+std::unique_ptr<Decompress_context> create_zstd_decompress();
 } // namespace cyx::compression

@@ -25,16 +25,14 @@ TEST(Compress, zstd_compress) {
 TEST(Compress, zstd_compress_direct) {
   const std::string src = "a little string";
   auto compress = cyx::compression::create_zstd_compress();
-  auto decompress = cyx::compression::create_zstd_decompress_stream();
-  std::string result;
+  auto decompress = cyx::compression::create_zstd_decompress();
 
-  cyx::compression::bind_output_buffer(*decompress, result);
   auto mid_result = compress->compress(src);
 
   EXPECT_TRUE(!mid_result.empty());
-  decompress->decompress(mid_result);
+  auto result = decompress->decompress(mid_result);
 
-  EXPECT_EQ(src, result);
+  EXPECT_EQ(src, std::string(result.begin(), result.end()));
 }
 
 TEST(Compress, zstd_compress_direct_compress_levels) {

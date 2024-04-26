@@ -1,7 +1,9 @@
 #include <cyx/compression/decompress_context.h>
 #include <iostream>
 #include <memory>
+#include <span>
 #include <stdexcept>
+#include <vector>
 #include <zstd.h>
 namespace cyx::compression {
 class Decompress_stream_context_zstd : public Decompress_stream_context {
@@ -60,5 +62,24 @@ private:
 
 std::unique_ptr<Decompress_stream_context> create_zstd_decompress_stream() {
   return std::make_unique<Decompress_stream_context_zstd>();
+}
+
+class Decompress_context_zstd : public Decompress_context {
+public:
+  std::vector<char> decompress(std::span<const char> data) override {
+    std::vector<char> output;
+    stream_.set_write_function([&output](std::span<const char> input) {
+      output.insert(output.end(), input.begin(), input.end());
+    });
+    stream_.decompress(data);
+    stream_.reset();
+    return output;
+  }
+
+private:
+  Decompress_stream_context_zstd stream_;
+};
+std::unique_ptr<Decompress_context> create_zstd_decompress() {
+  return std::make_unique<Decompress_context_zstd>();
 }
 } // namespace cyx::compression
