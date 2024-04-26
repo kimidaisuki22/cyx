@@ -23,7 +23,12 @@ public:
   virtual std::vector<char> compress(std::span<const char> data) = 0;
 };
 
+class Compress_context_with_level: public Compress_context {
+public:
+  using Compress_context::compress;
+  virtual std::vector<char> compress(std::span<const char> data,int level) = 0;
+};
 std::unique_ptr<Compress_stream_context>
 create_zstd_compress_stream(int level = 3);
-std::unique_ptr<Compress_context> create_zstd_compress(int level = 3);
+std::unique_ptr<Compress_context_with_level> create_zstd_compress(int level = 3);
 } // namespace cyx::compression
