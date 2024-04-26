@@ -25,4 +25,5 @@ public:
 
 std::unique_ptr<Compress_stream_context>
 create_zstd_compress_stream(int level = 3);
+std::unique_ptr<Compress_context> create_zstd_compress(int level = 3);
 } // namespace cyx::compression

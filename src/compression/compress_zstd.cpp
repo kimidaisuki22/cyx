@@ -4,6 +4,7 @@
 #include <memory>
 #include <span>
 #include <stdexcept>
+#include <vector>
 #include <zstd.h>
 
 namespace cyx::compression {
@@ -71,9 +72,7 @@ public:
     finish_frame();
     ZSTD_CCtx_reset(cstream, ZSTD_reset_session_only);
   }
-  void flush() override {
-    finish_frame();
-  }
+  void flush() override { finish_frame(); }
 
 private:
   ZSTD_outBuffer create_out_buffer() {
@@ -100,4 +99,34 @@ std::unique_ptr<Compress_stream_context>
 create_zstd_compress_stream(int level) {
   return std::make_unique<Compress_stream_context_zstd>(level);
 }
+
+class Compress_context_zstd : public Compress_context {
+public:
+  Compress_context_zstd(int compress_level) : compress_level_(compress_level) {
+    ctx_ = ZSTD_createCCtx();
+    if (ctx_ == nullptr) {
+      throw std::runtime_error("Failed to create compression context");
+    }
+  }
+
+  ~Compress_context_zstd() override { ZSTD_freeCCtx(ctx_); }
+
+  std::vector<char> compress(std::span<const char> data) override {
+    std::vector<char> output;
+    output.resize(ZSTD_compressBound(data.size()));
+    auto result_size =
+        ZSTD_compressCCtx(ctx_, output.data(), output.size(), data.data(),
+                          data.size(), compress_level_);
+    output.resize(result_size);
+    return output;
+  }
+
+private:
+  ZSTD_CCtx *ctx_;
+  int compress_level_;
+};
+
+std::unique_ptr<Compress_context> create_zstd_compress(int level) {
+  return std::make_unique<Compress_context_zstd>(level);
 }
+} // namespace cyx::compression
