@@ -71,6 +71,9 @@ public:
     finish_frame();
     ZSTD_CCtx_reset(cstream, ZSTD_reset_session_only);
   }
+  void flush() override {
+    finish_frame();
+  }
 
 private:
   ZSTD_outBuffer create_out_buffer() {

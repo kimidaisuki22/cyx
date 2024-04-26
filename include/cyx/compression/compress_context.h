@@ -13,6 +13,7 @@ public:
   virtual void
   set_write_function(std::function<void(std::span<const char>)> callback) = 0;
   virtual void reset() = 0;
+  virtual void flush() = 0;
 };
 
 class Compress_context {
