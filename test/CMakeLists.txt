@@ -9,7 +9,7 @@ endif()
 include(GoogleTest)
 enable_testing()
 
-set(LIB_MIX  GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main cyx)
+set(LIB_MIX  GTest::gtest GTest::gtest_main cyx)
 
 
 function(add_test_executable name)
