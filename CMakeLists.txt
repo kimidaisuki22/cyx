@@ -47,10 +47,15 @@ install(TARGETS cyx
     RUNTIME DESTINATION  ${CMAKE_INSTALL_BINDIR}
 )
 install(EXPORT cyx
-    FILE cyxConfig.cmake
+    FILE cyx-targets.cmake
     NAMESPACE cyx::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cyx
 )
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/cyx-config.cmake.in
+               ${CMAKE_CURRENT_BINARY_DIR}/cyx-config.cmake
+               @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cyx-config.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/cyx)
 endif()
