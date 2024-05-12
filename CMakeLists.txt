@@ -37,7 +37,7 @@ if(${cyx_BENCHMARK})
     add_subdirectory(benchmark)
 endif()
 
-if(${cy_INSTALL})
+if(${cyx_INSTALL})
 include(CPack)
 include(GNUInstallDirs)
 install(TARGETS cyx
@@ -53,7 +53,7 @@ install(EXPORT cyx
 )
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/cyx-config.cmake.in
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmakes/cyx-config.cmake.in
                ${CMAKE_CURRENT_BINARY_DIR}/cyx-config.cmake
                @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cyx-config.cmake
