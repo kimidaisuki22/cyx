@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(zstd)
+find_dependency(spdlog)
+
+include("${CMAKE_CURRENT_LIST_DIR}/cyx-targets.cmake")
